@@ -16,6 +16,7 @@ public class RocketController {
 
 	}
 
+	//recopila toda la información de los cohetes de la Array
 	public String getAllRocketsInfo() {
 
 		for (Rocket r : rockets) {
@@ -24,6 +25,7 @@ public class RocketController {
 		return info;
 	}
 
+	//devuelve un objeto Rocket con el id deseado
 	public Rocket getRocket(String id) {
 
 		for (Rocket r : rockets) {
@@ -33,10 +35,19 @@ public class RocketController {
 		return null;
 	}
 
+	//devuelve información del cohete introducido
 	public String getInfoRocket(Rocket r) {
 
-		info = "Codi del cohet: " + r.getId() + ". Número de propulsors: " + r.getBoosters().length;
+		info = r.getId() + ": ";
+		
+		for(int b:r.getBoosters()) {
+			info=info+b+",";
+		}
 		return info;
 	}
 
+	//define una potencia para un propulso
+	public void setBoosterPower(Rocket r, int booster, int power) {
+		r.setPowerBooster(booster, power);
+	}
 }
