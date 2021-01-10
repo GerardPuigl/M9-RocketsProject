@@ -6,7 +6,7 @@ import com.rockets.model.*;
 
 public class RocketController {
 
-	private List<Rocket> rockets = new ArrayList<Rocket>();
+	private static List<Rocket> rockets = new ArrayList<Rocket>();
 	private String info = "";
 	private Rocket rocket;
 
@@ -54,23 +54,56 @@ public class RocketController {
 
 	// Acelerar a una potencia concreta
 	public void accelerate(String id, int booster, int power) {
-		
-		rocket=getRocket(id);
-		
+
+		rocket = getRocket(id);
+
 		try {
-			for(int i=rocket.getPowerBooster(booster);i<power;i++){//pregunta la potencia actual y crea un bucle de incremento de 1 en 1
-				rocket.setPowerBooster(booster,rocket.getPowerBooster(booster)+1);
-				System.out.println(rocket.getId() + " Propulsor " + booster +":"+rocket.getPowerBooster(booster));
+			// pregunta la potencia actual y crea un bucle de incremento de 1 en 1
+			for (int i = rocket.getPowerBooster(booster); i < power; i++) {
+				rocket.setPowerBooster(booster, rocket.getPowerBooster(booster) + 1);
+				System.out.println(rocket.getId() + " propulsor " + booster + ":" + rocket.getPowerBooster(booster));
+				Thread.sleep(300);
 			}
+			System.out.println(rocket.getId() + " propulsor " + booster + " ha arribat la potencia sol·licitada.");
+
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println(rocket.getId() + e.getMessage());
 		}
-		
 
-
-		
 	}
 
+	// Acelereación multi hilo
+	public void accelerateMultiThread(String id, int booster, int power) {
+		Runnable ac1 = new AccelerateMultiThread(id, booster, power);
+		Thread ac1_1 = new Thread(ac1);
+		ac1_1.start();
+	}
 
+	// Reducir a una potencia concreta
+	public void reduce(String id, int booster, int power) {
+
+		rocket = getRocket(id);
+
+		// pregunta la potencia actual y crea un bucle de reducción de 1 en 1
+		try {
+			for (int i = rocket.getPowerBooster(booster); i > power; i--) {
+				rocket.setPowerBooster(booster, rocket.getPowerBooster(booster) - 1);
+				System.out.println(rocket.getId() + " propulsor " + booster + ":" + rocket.getPowerBooster(booster));
+				Thread.sleep(300);
+			}
+			System.out.println(rocket.getId() + " propulsor " + booster + " ha arribat la potencia sol·licitada.");
+
+		} catch (Exception e) {
+			System.out.println(rocket.getId() + e.getMessage());
+		}
+
+	}
+
+	// Accelereación multi hilo
+	public void reduceMultiThread(String id, int booster, int power) {
+		Runnable re1 = new ReduceMultiThread(id, booster, power);
+		Thread re1_1 = new Thread(re1);
+		re1_1.start();
+	}
 
 }

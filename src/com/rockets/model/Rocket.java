@@ -21,13 +21,20 @@ public class Rocket {
 		return boosters;
 	}
 
+	// setear potencia del cohete impidiendo que supere la potencia máxima o reducir
+	// por debajo de 0.
 	public void setPowerBooster(int booster, int power) throws Exception {
-		
+
 		if (boostersMaxPower[booster] < power) {
-			
-			throw new Exception("Propulsor " + booster + " ha alcanzado la máxima potencia.");
+
+			throw new Exception(" Propulsor " + booster + " ha arribat a la potencia màxima!");
+
+		} else if (0 >= power) {
+
+			throw new Exception(" Propulsor " + booster + " està a 0.");
 
 		} else {
+
 			boosters[booster] = power;
 		}
 	}
