@@ -1,8 +1,9 @@
 package com.rockets.view;
 
-import javax.management.loading.PrivateClassLoader;
 
-import com.rockets.controller.AccelerateMultiThread;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import com.rockets.controller.RocketController;
 
 public class RocketsApp {
@@ -10,6 +11,7 @@ public class RocketsApp {
 	public static void main(String[] args) {
 		
 	 RocketController controller=new RocketController();
+
 	 
 	 //crea los cohetes
 	 controller.addRocket("32WESSDS", 3);
@@ -24,22 +26,19 @@ public class RocketsApp {
 	 controller.setMaxPower("LDSFJA32",4, 30);
 	 controller.setMaxPower("LDSFJA32",5, 10);
 	 
+	 //reparte la potencia en función de una velocidad dada
+	 controller.setSpeed("32WESSDS", 200);
+	 
 	 try {
-		controller.getRocket("LDSFJA32").setPowerBooster(0, 30);
-	} catch (Exception e) {
+		Thread.sleep(1000);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
 	 
 	 //imprime información de los cohetes
 	 System.out.println("Output: \n" + controller.getAllRocketsInfo());
-	 
-	 //acelerar cohete 1
-	 controller.accelerateMultiThread("32WESSDS", 0, 8);
-	 controller.accelerateMultiThread("32WESSDS", 1, 40);
-	 controller.accelerateMultiThread("32WESSDS", 2, 75);
-	 
-	 controller.reduce("LDSFJA32", 0, -15);
-	 
+
 	}
 
 }

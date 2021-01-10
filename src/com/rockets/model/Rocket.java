@@ -3,13 +3,14 @@ package com.rockets.model;
 public class Rocket {
 
 	private String id;
-	private int[] boosters;
-	private int[] boostersMaxPower;
+	private double[] boosters;
+	private double[] boostersMaxPower;
+	private double speed;
 
 	public Rocket(String id, int boosters) {
 		this.id = id;
-		this.boosters = new int[boosters];
-		this.boostersMaxPower = new int[boosters];
+		this.boosters = new double[boosters];
+		this.boostersMaxPower = new double[boosters];
 
 	}
 
@@ -17,13 +18,12 @@ public class Rocket {
 		return id;
 	}
 
-	public int[] getBoosters() {
+	public double[] getBoosters() {
 		return boosters;
 	}
 
-	// setear potencia del cohete impidiendo que supere la potencia máxima o reducir
-	// por debajo de 0.
-	public void setPowerBooster(int booster, int power) throws Exception {
+	// setear potencia del cohete impidiendo que supere la potencia máxima o reducir por debajo de 0.
+	public void setPowerBooster(int booster, double power) throws Exception {
 
 		if (boostersMaxPower[booster] < power) {
 
@@ -39,15 +39,15 @@ public class Rocket {
 		}
 	}
 
-	public int getPowerBooster(int booster) {
+	public double getPowerBooster(int booster) {
 		return boosters[booster];
 	}
 
-	public void setMaxPower(int booster, int power) {
+	public void setMaxPower(int booster, double power) {
 		boostersMaxPower[booster] = power;
 	}
 
-	public int getMaxPower(int booster) {
+	public double getMaxPower(int booster) {
 		return boostersMaxPower[booster];
 	}
 
