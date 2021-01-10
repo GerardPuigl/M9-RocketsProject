@@ -3,11 +3,11 @@ package com.rockets.model;
 public class Rocket {
 
 	private String id;
-	private double[] boosters;
+	private int[] boosters;
 
 	public Rocket(String id, int boosters) {
 		this.id = id;
-		this.boosters = new double[boosters];
+		this.boosters = new int[boosters];
 
 	}
 
@@ -15,8 +15,16 @@ public class Rocket {
 		return id;
 	}
 
-	public double[] getBoosters() {
+	public int[] getBoosters() {
 		return boosters;
+	}
+	
+	public int getPowerBooster(int booster) {
+		return boosters[booster];
+	}
+	
+	public void setPowerBooster(int booster, int power) {
+		boosters[booster]=power;
 	}
 
 }
