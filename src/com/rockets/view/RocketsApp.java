@@ -12,20 +12,25 @@ public class RocketsApp {
 	 
 	 //crea los cohetes
 	 controller.addRocket("32WESSDS", 3);
-	 controller.getRocket("32WESSDS").setPowerBooster(0, 10);
-	 controller.getRocket("32WESSDS").setPowerBooster(1, 30);
-	 controller.getRocket("32WESSDS").setPowerBooster(2, 80);
+	 controller.setMaxPower("32WESSDS",0, 10);
+	 controller.setMaxPower("32WESSDS",1, 30);
+	 controller.setMaxPower("32WESSDS",2, 80);
 	 controller.addRocket("LDSFJA32",6);
-	 controller.getRocket("LDSFJA32").setPowerBooster(0, 30);
-	 controller.getRocket("LDSFJA32").setPowerBooster(1, 40);
-	 controller.getRocket("LDSFJA32").setPowerBooster(2, 50);
-	 controller.getRocket("LDSFJA32").setPowerBooster(3, 50);
-	 controller.getRocket("LDSFJA32").setPowerBooster(4, 30);
-	 controller.getRocket("LDSFJA32").setPowerBooster(5, 10);
+	 controller.setMaxPower("LDSFJA32",0, 30);
+	 controller.setMaxPower("LDSFJA32",1, 40);
+	 controller.setMaxPower("LDSFJA32",2, 50);
+	 controller.setMaxPower("LDSFJA32",3, 50);
+	 controller.setMaxPower("LDSFJA32",4, 30);
+	 controller.setMaxPower("LDSFJA32",5, 10);
 	 
 	 //imprime información de los cohetes
 	 System.out.println("Output: \n" + controller.getAllRocketsInfo());
 	 
+	 //acelerar cohete 1 
+	 
+	 controller.accelerate("32WESSDS",0,8);
+	 controller.accelerate("32WESSDS", 1, 40);
+	 controller.accelerate("32WESSDS", 2, 75);
 	 
 	}
 
