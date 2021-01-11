@@ -1,13 +1,11 @@
 package com.rockets.view;
 
-
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 import com.rockets.controller.RocketController;
 
 public class RocketsApp {
 
+	public static boolean wait;
+	
 	public static void main(String[] args) {
 		
 	 RocketController controller=new RocketController();
@@ -27,14 +25,7 @@ public class RocketsApp {
 	 controller.setMaxPower("LDSFJA32",5, 10);
 	 
 	 //reparte la potencia en función de una velocidad dada
-	 controller.setSpeed("32WESSDS", 200);
-	 
-	 try {
-		Thread.sleep(1000);
-	} catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+	 controller.setSpeed("32WESSDS", 1000);
 	 
 	 //imprime información de los cohetes
 	 System.out.println("Output: \n" + controller.getAllRocketsInfo());
