@@ -207,5 +207,8 @@ public class Rocket implements Runnable {
 		}
 
 	}
-
+	public void test() {
+		
+	}
+	
 }
