@@ -51,4 +51,8 @@ public class Rocket {
 		return boostersMaxPower[booster];
 	}
 
+	public double getSpeed() {
+		return speed;
+	}
+
 }

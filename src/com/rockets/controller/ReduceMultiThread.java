@@ -6,9 +6,9 @@ public class ReduceMultiThread implements Runnable {
 	
 	private String id;
 	private int booster;
-	private int power;
+	private double power;
 
-	public ReduceMultiThread(String id,int booster, int power) {
+	public ReduceMultiThread(String id,int booster, double power) {
 		
 		this.id=id;
 		this.booster=booster;
