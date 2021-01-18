@@ -18,6 +18,6 @@ public class ReduceMultiThread implements Runnable {
 
 	@Override
 	public void run() {
-		controller.reduce(id, booster, power);
+		//controller.reduce(id, booster, power);
 	}
 }

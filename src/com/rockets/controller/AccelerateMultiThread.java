@@ -19,6 +19,6 @@ public class AccelerateMultiThread implements Runnable {
 
 	@Override
 	public void run() {
-		controller.accelerate(id, booster, power);
+		//controller.accelerateByPower(id, booster, power);
 	}
 }

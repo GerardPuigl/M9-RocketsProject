@@ -16,6 +16,7 @@ public class RocketsApp {
 	 controller.setMaxPower("32WESSDS",0, 10);
 	 controller.setMaxPower("32WESSDS",1, 30);
 	 controller.setMaxPower("32WESSDS",2, 80);
+	 
 	 controller.addRocket("LDSFJA32",6);
 	 controller.setMaxPower("LDSFJA32",0, 30);
 	 controller.setMaxPower("LDSFJA32",1, 40);
@@ -24,10 +25,13 @@ public class RocketsApp {
 	 controller.setMaxPower("LDSFJA32",4, 30);
 	 controller.setMaxPower("LDSFJA32",5, 10);
 	 
+	 /*
 	 //reparte la potencia en función de una velocidad dada
 	 controller.setSpeed("32WESSDS", 1000);
 	 controller.setSpeed("32WESSDS", 500); 
 	 //imprime información de los cohetes
+	  */
+	 
 	 System.out.println("\nInformació coets: \n" + controller.getAllRocketsInfo());
 
 	}

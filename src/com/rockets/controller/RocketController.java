@@ -9,40 +9,40 @@ public class RocketController {
 
 	private static List<Rocket> rockets = new ArrayList<Rocket>();
 	private String info = "";
-	private Rocket rocket;
 	private double maxPower = 0;
 	private double totalPower = 0;
-	int saltoAceleracionReduccion = 1;
-
-	private List<Thread> threads = new ArrayList<Thread>();
 
 	private static DecimalFormat df2 = new DecimalFormat("#.##");
+	
+	// construeix un coet i el posa a l'Array
 
-	// construye un cohete y lo pone en la lista
-
-	public void addRocket(String Id, int boosters) {
-		rockets.add(new Rocket(Id, boosters));
+	public void addRocket(String id, int boosters) {
+		rockets.add(new Rocket(id, boosters));
 	}
 
-	// define una potencia máxima para un propulsor
-
-	public void setMaxPower(String id, int booster, double power) {
-		getRocket(id).setMaxPower(booster, power);
-	}
-
-	// devuelve un objeto Rocket con el id dado
-
-	public Rocket getRocket(String id) {
-
+	// torna un objecte coet
+	
+	private Rocket getRocket(String id) {
+		
 		for (Rocket r : rockets) {
-			if (r.getId().equals(id))
+			if(r.getId().equals(id)) {
 				return r;
+			}
 		}
 		return null;
+		
 	}
 
-	// recopila toda la información de los cohetes de la Array
+	// torna el número de propulsors d'un coet
+	
+	public int getNumBoosters(String id) {
 
+		return getRocket(id).getBoosters().length;
+
+	}
+
+	// torna tota l'informació de tots els coets.
+	
 	public String getAllRocketsInfo() {
 
 		for (Rocket r : rockets) {
@@ -50,40 +50,62 @@ public class RocketController {
 		}
 		return info;
 	}
-
-	// devuelve información del cohete introducido
-
+			
+	// torna l'informació d'un coet.
+	
 	public String getInfoRocket(Rocket r) {
 
 		int i = 0;
 
 		info = r.getId() + ": \n";
 
-		for (double b : r.getBoosters()) {
+		for (Booster b : r.getBoosters()) {
 			i++;
-			info = info + "Propulsor " + i + ": " + df2.format(b) + "\n";
+			info = info + "Propulsor " + i + ": " + df2.format(b.getPower()) + " - "+ df2.format(b.getMaxPower()) + "\n";
 		}
 		return info;
 	}
+			
+	// defineix la potencia màxima d'un propulsor.
+
+	public void setMaxPower(String id, int booster, double power) {
+		getRocket(id).setMaxPower(booster, power);
+	}
+
+
+		
+	/*int saltoAceleracionReduccion = 1;
+
+	//private List<Thread> threads = new ArrayList<Thread>();
+
+	//private static DecimalFormat df2 = new DecimalFormat("#.##");
+
+	
+
+
+
+
+	// recopila toda la información de los cohetes de la Array
+
+
+
+	// devuelve información del cohete introducido
+
 
 	// Acelerar a una potencia concreta
 
-	public void accelerate(String id, int booster, double power) {
+	public void accelerateByPower(String id, int booster, double power) {
 
 		rocket = getRocket(id);
 
 		try {
 
 			// pregunta la potencia actual y crea un bucle de incremento de 1 en 1
-
 			while (power > saltoAceleracionReduccion) {
-
-				rocket.setPowerBooster(booster, rocket.getPowerBooster(booster) + saltoAceleracionReduccion);
+				
 				power -= saltoAceleracionReduccion;
-
-				System.out.println(
-						rocket.getId() + " propulsor " + booster + ": " + df2.format(rocket.getPowerBooster(booster)));
-				Thread.sleep(300);
+				
+				accelerate(booster);
 
 			}
 
@@ -95,6 +117,15 @@ public class RocketController {
 			System.out.println(rocket.getId() + e.getMessage());
 		}
 
+	}
+
+	private void accelerate(int booster) throws Exception, InterruptedException {
+		
+		rocket.setPowerBooster(booster, rocket.getPowerBooster(booster) + saltoAceleracionReduccion);
+
+		System.out.println(
+				rocket.getId() + " propulsor " + booster + ": " + df2.format(rocket.getPowerBooster(booster)));
+		Thread.sleep(300);
 	}
 
 	// Acelereación multihilo
@@ -236,6 +267,8 @@ public class RocketController {
 			}
 
 		}
-	}
+	
+	
+	}*/
 
 }
