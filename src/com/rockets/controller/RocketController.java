@@ -9,7 +9,7 @@ public class RocketController {
 	private List<Rocket> rockets = new ArrayList<Rocket>();
 	private String info="";
 
-	// construye un cohete y lo pone en la lista
+	// construeix un coet i el posa a l'Array
 	public void addRocket(String Id, int boosters) {
 
 		rockets.add(new Rocket(Id, boosters));
