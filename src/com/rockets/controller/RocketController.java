@@ -1,5 +1,6 @@
 package com.rockets.controller;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 import com.rockets.model.*;
@@ -10,10 +11,12 @@ public class RocketController {
 	private String info = "";
 	private Rocket rocket;
 	private double maxPower = 0;
-
+	private double totalPower = 0;
 	int saltoAceleracionReduccion = 1;
 
 	private List<Thread> threads = new ArrayList<Thread>();
+
+	private static DecimalFormat df2 = new DecimalFormat("#.##");
 
 	// construye un cohete y lo pone en la lista
 
@@ -52,10 +55,13 @@ public class RocketController {
 
 	public String getInfoRocket(Rocket r) {
 
-		info = r.getId() + ": ";
+		int i = 0;
+
+		info = r.getId() + ": \n";
 
 		for (double b : r.getBoosters()) {
-			info = info + b + ",";
+			i++;
+			info = info + "Propulsor " + i + ": " + df2.format(b) + "\n";
 		}
 		return info;
 	}
@@ -72,53 +78,25 @@ public class RocketController {
 
 			while (power > saltoAceleracionReduccion) {
 
-					rocket.setPowerBooster(booster, rocket.getPowerBooster(booster) + saltoAceleracionReduccion);
-					power -= saltoAceleracionReduccion;
+				rocket.setPowerBooster(booster, rocket.getPowerBooster(booster) + saltoAceleracionReduccion);
+				power -= saltoAceleracionReduccion;
 
-					System.out.println(rocket.getId() + " propulsor " + booster + ":" + rocket.getPowerBooster(booster));
-					Thread.sleep(300);
+				System.out.println(
+						rocket.getId() + " propulsor " + booster + ": " + df2.format(rocket.getPowerBooster(booster)));
+				Thread.sleep(300);
 
 			}
 
 			rocket.setPowerBooster(booster, rocket.getPowerBooster(booster) + power);
-			System.out.println(rocket.getId() + " propulsor " + booster + ":" + rocket.getPowerBooster(booster));
+			System.out.println(
+					rocket.getId() + " propulsor " + booster + ": " + df2.format(rocket.getPowerBooster(booster)));
 
-			
 		} catch (Exception e) {
 			System.out.println(rocket.getId() + e.getMessage());
 		}
 
 	}
 
-	// Reducir a una potencia concreta
-	public void reduce(String id, int booster, double power) {
-		
-		rocket = getRocket(id);
-
-		try {
-
-			// pregunta la potencia actual y crea un bucle de dremento de 1 en 1
-
-			while (power > saltoAceleracionReduccion) {
-
-					rocket.setPowerBooster(booster, rocket.getPowerBooster(booster) - saltoAceleracionReduccion);
-					power -= saltoAceleracionReduccion;
-
-					System.out.println(rocket.getId() + " propulsor " + booster + ":" + rocket.getPowerBooster(booster));
-					Thread.sleep(300);
-
-			}
-
-			rocket.setPowerBooster(booster, rocket.getPowerBooster(booster) - power);
-			System.out.println(rocket.getId() + " propulsor " + booster + ":" + rocket.getPowerBooster(booster));
-
-			
-		} catch (Exception e) {
-			System.out.println(rocket.getId() + e.getMessage());
-		}
-
-	}
-	
 	// Acelereación multihilo
 	public void accelerateMultiThread(String id, int booster, double power) {
 
@@ -129,6 +107,27 @@ public class RocketController {
 
 	}
 
+	// Código para distribuir la potencia uniformemente cuando acelera
+	public void powerDistributionAccelerate(Rocket rocket, double power) {
+	
+		while (power > saltoAceleracionReduccion) {
+	
+			for (int i = 0; i < rocket.getBoosters().length; i++) {
+			
+				if((rocket.getMaxPower(i)-rocket.getPowerBooster(i))>saltoAceleracionReduccion) {
+					
+					accelerateMultiThread(rocket.getId(), i, saltoAceleracionReduccion);
+					power -= saltoAceleracionReduccion;
+					
+				}
+			}
+			
+			
+			sincroThreads();
+		}
+	
+	}
+
 	// Accelereación multi hilo
 	public void reduceMultiThread(String id, int booster, double power) {
 		Runnable re1 = new ReduceMultiThread(id, booster, power);
@@ -137,18 +136,20 @@ public class RocketController {
 		re1_1.start();
 	}
 
-	
 	// Cálculo de potencia respecto a una velocidad dada
 	public void setSpeed(String id, double speed) {
-
 		rocket = getRocket(id);
+
+		totalPower = 0;
 
 		if (rocket.getSpeed() < speed) {
 
-			double totalPower = Math.pow(((speed - rocket.getSpeed()) / 100), 2);
+			totalPower = Math.pow(((speed - rocket.getSpeed()) / 100), 2);
 
 			for (int i = 0; i < rocket.getBoosters().length; i++) {
+
 				maxPower = maxPower + rocket.getMaxPower(i) - rocket.getPowerBooster(i);
+
 			}
 
 			if (totalPower > maxPower) {
@@ -161,40 +162,45 @@ public class RocketController {
 
 		if (rocket.getSpeed() > speed) {
 
+			totalPower = Math.pow(((rocket.getSpeed() - speed) / 100), 2);
+
 			double totalPower = Math.pow(((rocket.getSpeed() - speed) / 100), 2);
 
 			powerDistributionReduce(rocket, totalPower);
 
 		}
+		sincroThreads();
 
 	}
 
-	// Código para distribuir la potencia uniformemente cuando acelera
-	public void powerDistributionAccelerate(Rocket rocket, double totalPower) {
-		while (totalPower > 0.1) {
+	public void reduce(String id, int booster, double power) {
 
-			double power = totalPower / rocket.getBoosters().length;
+		rocket = getRocket(id);
 
-			for (int i = 0; i < rocket.getBoosters().length; i++) {
+		try {
 
-				// si el propulsor tiene potencia suficiente para almacenar lo que le toca
-				if (rocket.getMaxPower(i) - rocket.getPowerBooster(i) > power) {
+			// pregunta la potencia actual y crea un bucle de dremento de 1 en 1
 
-					accelerateMultiThread(rocket.getId(), i, power);
-					totalPower -= power;
+			while (power > saltoAceleracionReduccion) {
 
-					// si el propulsor no tiene suficiente potencia. Poner al 100% y repartir el
-					// resto entre los otros
-				} else {
-					accelerateMultiThread(rocket.getId(), i, rocket.getMaxPower(i));
-					totalPower -= rocket.getMaxPower(i) - rocket.getPowerBooster(i);
-				}
+				rocket.setPowerBooster(booster, rocket.getPowerBooster(booster) - saltoAceleracionReduccion);
+				power -= saltoAceleracionReduccion;
+
+				System.out.println(
+						rocket.getId() + " propulsor " + booster + ": " + df2.format(rocket.getPowerBooster(booster)));
+				Thread.sleep(300);
 
 			}
+
+			rocket.setPowerBooster(booster, rocket.getPowerBooster(booster) - power);
+			System.out.println(
+					rocket.getId() + " propulsor " + booster + ": " + df2.format(rocket.getPowerBooster(booster)));
+
+		} catch (Exception e) {
+			System.out.println(rocket.getId() + e.getMessage());
 		}
 
 	}
-
 	// Código para distribuir la potencia uniformemente cuando frena
 	public void powerDistributionReduce(Rocket rocket, double totalPower) {
 		while (totalPower > 0.1) {
@@ -219,6 +225,17 @@ public class RocketController {
 			}
 		}
 
+	}
+
+	private void sincroThreads() {
+		for (Thread t : threads) {
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		}
 	}
 
 }

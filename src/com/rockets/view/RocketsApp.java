@@ -26,9 +26,9 @@ public class RocketsApp {
 	 
 	 //reparte la potencia en función de una velocidad dada
 	 controller.setSpeed("32WESSDS", 1000);
-	 
+	 controller.setSpeed("32WESSDS", 500); 
 	 //imprime información de los cohetes
-	 System.out.println("Output: \n" + controller.getAllRocketsInfo());
+	 System.out.println("\nInformació coets: \n" + controller.getAllRocketsInfo());
 
 	}
 

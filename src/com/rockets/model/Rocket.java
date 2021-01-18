@@ -34,7 +34,6 @@ public class Rocket {
 			throw new Exception(" Propulsor " + booster + " està a 0.");
 
 		} else {
-
 			boosters[booster] = power;
 		}
 	}
