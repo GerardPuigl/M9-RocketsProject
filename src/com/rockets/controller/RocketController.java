@@ -61,7 +61,7 @@ public class RocketController {
 
 		for (Booster b : r.getBoosters()) {
 			i++;
-			info = info + "Propulsor " + i + ": " + df2.format(b.getPower()) + " - "+ df2.format(b.getMaxPower()) + "\n";
+			info = info + "Propulsor " + i + ": " + df2.format(b.getPower()) + " de "+ df2.format(b.getMaxPower()) + "\n";
 		}
 		return info;
 	}
@@ -72,6 +72,36 @@ public class RocketController {
 		getRocket(id).setMaxPower(booster, power);
 	}
 
+	// defineix la potencia d'un propulsor.
+	
+	public void setObjectivePower(String id, int booster, double power) {
+		getRocket(id).setObjectivePower(booster, power);
+		
+		
+	}
+	
+	
+	public void arrancarCoet(String id) {
+
+		getRocket(id).arrancar();
+
+	}
+
+	public void accelerar(String id) {
+		
+		getRocket(id).accelerar();		
+		
+	}
+
+	public void frenar(String id) {
+		getRocket(id).frenar();
+		
+	}
+
+	public void parar(String id) {
+		getRocket(id).parar();
+		
+	}
 
 		
 	/*int saltoAceleracionReduccion = 1;

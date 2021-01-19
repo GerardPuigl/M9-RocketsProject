@@ -10,33 +10,14 @@ public class Booster implements Runnable {
 	private double boosterPower;
 	private double boostersMaxPower;
 	private int cadencia=1;
+	String state="parat";
 
 	private static DecimalFormat df2 = new DecimalFormat("#.##");
 
 	public Booster(int id) {
 		this.id = id;
 	}
-
-	public double getPower() {
-		return boosterPower;
-	}
-
-	public void setPower(double power) throws Exception {
-
-		if (boostersMaxPower < power) {
-
-			throw new Exception(" Propulsor " + id + " ha arribat a la potencia màxima!");
-
-		} else if (0 >= power) {
-
-			throw new Exception(" Propulsor " + id + " està a 0.");
-
-		} else {
-			boosterPower = power;
-
-		}
-	}
-
+	
 	public double getMaxPower() {
 		return boostersMaxPower;
 	}
@@ -44,23 +25,98 @@ public class Booster implements Runnable {
 	public void setMaxPower(double boostersMaxPower) {
 		this.boostersMaxPower = boostersMaxPower;
 	}
+	
+	public double getPower() {
+		return boosterPower;
+	}
 
+	// fixa potencia objectiu i vigila que no pugui superar la potencia màxima. 
+	// en cas de superar-la el posa al màxim iretorna la potencia no assignada.
+	
+	public void setObjectivePower(double power) throws Exception {
+		
+		if(boostersMaxPower<power) {
+			
+			objectivePower=boostersMaxPower;
+			
+			throw new maxPowerException("No es pot superar la potencia màxima.\n"
+					+ "Potencia no adjudicada al propulsor: " + id + " - "
+					+ (power - boostersMaxPower), power - boostersMaxPower);
+		}
+		objectivePower=power;
+	}
+	
+	// augmenta la potencia i vigila que no superi la potencia màxima.
+	
+	public void setPower(double power) throws Exception {
+
+		if (boostersMaxPower < power) {
+
+			throw new Exception("Propulsor " + id + " no pot superar la potencia màxima!");
+			
+		} else if (boostersMaxPower == power) {
+			
+			boosterPower = power;
+			throw new Exception("Propulsor " + id + " ha arribat a la potencia màxima.");
+
+
+		} else if (0 >= power) {
+			
+			boosterPower = power;
+			throw new Exception("Propulsor " + id + " està a 0.");
+
+
+		} else {
+			boosterPower = power;
+
+		}
+	}
+
+	// mètode runnable: Accelera o frena (en funció de l'estat) fins la potencia objectiu.
+	
 	@Override
 	public void run() {
 
-		while (objectivePower < boosterPower) {
-
-			boosterPower += cadencia;
-
-			System.out.println("Propulsor " + id + " : " + df2.format(boosterPower));
+		while (objectivePower != boosterPower && !Thread.currentThread().isInterrupted()) {
 
 			try {
-				Thread.sleep(300);
+
+				if (state.equals("accelerar")) {
+
+					setPower(boosterPower += cadencia);
+
+				} else if (state.equals("frenar")) {
+
+					setPower(boosterPower -= cadencia);
+				}
+				System.out.println("Propulsor " + id + " : " + df2.format(boosterPower) + " de " + df2.format(boostersMaxPower));
+			} catch (Exception e) {
+
+				System.out.println("Propulsor " + id + " : " + df2.format(boosterPower) + " de " + df2.format(boostersMaxPower));
+				System.out.println(e.getMessage());
+				break;
+			}
+
+			try {
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Thread.currentThread().interrupt();
 			}
 		}
+		state="parat";
 
+	}
+
+	public void accelerar() {
+				
+		state="accelerar";
+		
+	}
+
+	public void frenar() {
+		
+		state="frenar";
+		
 	}
 
 }
