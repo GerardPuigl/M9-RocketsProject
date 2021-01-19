@@ -31,9 +31,9 @@ public class Booster implements Runnable {
 	}
 
 	// fixa potencia objectiu i vigila que no pugui superar la potencia màxima. 
-	// en cas de superar-la el posa al màxim iretorna la potencia no assignada.
+	// en cas de superar-la el posa al màxim i retorna la potencia no assignada.
 	
-	public void setObjectivePower(double power) throws Exception {
+	public void setObjectivePower(double power) throws maxPowerException{
 		
 		if(boostersMaxPower<power) {
 			
