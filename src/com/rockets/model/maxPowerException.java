@@ -2,10 +2,10 @@ package com.rockets.model;
 
 public class maxPowerException extends RuntimeException {
 
-	String errorMessage;
-	double power;
+	private String errorMessage;
+	private double power;
 
-	// excepció personalitzada
+	// excepció personalitzada 
 	public maxPowerException(String errorMessage, double power) {
 		super(errorMessage);
 	}

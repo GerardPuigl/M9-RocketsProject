@@ -5,12 +5,12 @@ import java.text.DecimalFormat;
 
 public class Booster implements Runnable {
 
-	int id;
+	private int id;
 	private double objectivePower;
 	private double boosterPower;
 	private double boostersMaxPower;
 	private int cadencia=1;
-	String state="parat";
+	private String state="parat";
 
 	private static DecimalFormat df2 = new DecimalFormat("#.##");
 

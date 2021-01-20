@@ -2,7 +2,7 @@ package com.rockets.model;
 
 import java.text.DecimalFormat;
 
-public class Rocket implements Runnable {
+public class Rocket {
 
 	private String id;
 	private Booster[] boosters;
@@ -12,7 +12,7 @@ public class Rocket implements Runnable {
 	Thread[] threads;
 
 	private static DecimalFormat df2 = new DecimalFormat("#.00");
-	
+
 	public Rocket(String id, int nBoosters) {
 		this.id = id;
 
@@ -75,7 +75,7 @@ public class Rocket implements Runnable {
 
 	// rep una velocitat i en calcula la potenica.
 
-	public void setSpeed(double speed) {
+	public void setSpeed(double speed) throws maxPowerException {
 
 		powerDistribution(Math.pow(((speed) / 100), 2));
 
@@ -83,11 +83,12 @@ public class Rocket implements Runnable {
 
 	// distribueix una potencia donada
 
-	public void powerDistribution(double power) {
+	public void powerDistribution(double power) throws maxPowerException {
 
 		if (power > maxPower()) {
 			power = maxPower();
-			System.out.println("No es pot superar la velocitat: " + 100 * Math.sqrt(maxPower()));
+			System.out.println("No es pot superar la velocitat: " + df2.format(100 * Math.sqrt(maxPower())) + " km/h.");
+			throw new maxPowerException("No es pot superar la velocitat: " + df2.format(100 * Math.sqrt(maxPower())) + " km/h.", 0);
 		}
 
 		for (Booster b : boosters) {
@@ -119,23 +120,8 @@ public class Rocket implements Runnable {
 		return maxPower;
 	}
 
-	// mètode "observer" que comprova si el paràmetre de velocitat ha canviat.
-	
-	@Override
-	public void run() {
-
-		while (!Thread.currentThread().isInterrupted()) {
-			getSpeed();
-
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				Thread.interrupted();
-			}
-		}
-	}
-
-	// calcula la velocitat, si ha canviat respecte l'anterior registre imprimeix per pantalla
+	// calcula la velocitat, si ha canviat respecte l'anterior registre imprimeix
+	// per pantalla
 
 	public double getSpeed() {
 

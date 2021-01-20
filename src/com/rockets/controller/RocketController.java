@@ -29,13 +29,17 @@ public class RocketController {
 
 	public void addRocket(String id, int boosters) {
 		rockets.add(new Rocket(id, boosters));
-		Thread observerRocketThread = new Thread(getRocket(id));
-		observerRocketThread.start();
 	}
 
+	// torna una llista d'objectes
+
+	public static List<Rocket> getRocketsList() {
+		return rockets;
+	}
+	
 	// torna un objecte coet
 
-	private Rocket getRocket(String id) {
+	public Rocket getRocket(String id) {
 
 		for (Rocket r : rockets) {
 			if (r.getId().equals(id)) {
@@ -125,7 +129,7 @@ public class RocketController {
 
 	// defineix una velocitat desitjada pel coet
 
-	public void setSpeed(String id, int i) {
+	public void setSpeed(String id, int i) throws maxPowerException {
 		getRocket(id).setSpeed(i);
 	}
 

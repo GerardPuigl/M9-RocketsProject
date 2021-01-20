@@ -1,6 +1,10 @@
 package com.rockets.view;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import com.rockets.controller.RocketController;
+import com.rockets.model.Rocket;
 
 public class RocketsApp {
 
@@ -24,35 +28,23 @@ public class RocketsApp {
 		controller.setMaxPower("LDSFJA32", 4, 30);
 		controller.setMaxPower("LDSFJA32", 5, 10);
 
-		// fixar una velocitat superior a inicial (obliga a accelerar)
 		
-				controller.setSpeed("32WESSDS", 1000);
-
-		// fixar una velocitat inferior a l'anterior (obliga a frenar)
-
-		Thread.sleep(30000);
-		controller.setSpeed("32WESSDS", 800);
-
+		// crea el panells
 		
-		/*Nivell 1
-		// fixa potencia objectiu
-		controller.setObjectivePower("32WESSDS", 0, 30);
-		controller.setObjectivePower("32WESSDS", 1, 5.5);
-		controller.setObjectivePower("32WESSDS", 2, 30);
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-		// accelera el coet
+		Dimension screen = toolkit.getScreenSize(); // calcula dimensiones pantalla
 
-		controller.accelerar("32WESSDS");
+		int screenX =(int) screen.getWidth();
+		int screenY =(int) screen.getHeight();
 
-		Thread.sleep(2050);
-
-		controller.frenar("32WESSDS");
-
-		Thread.sleep(4050);
-
-		System.out.println("\nInformació coets: \n" + controller.getAllRocketsInfo());
+		ControlPanel panel1=new ControlPanel("32WESSDS");
 		
-		*/
+		panel1.setLocation(screenX/2+50,screenY/2-250);
+		
+		ControlPanel panel2=new ControlPanel("LDSFJA32");	
+
+		panel2.setLocation(screenX/2-450,screenY/2-250);
 
 	}
 
