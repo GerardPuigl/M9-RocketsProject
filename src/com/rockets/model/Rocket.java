@@ -33,13 +33,13 @@ public class Rocket {
 		return boosters;
 	}
 
-	// defineix una potencia màxima per cada propulsor
+	// defineix una potència màxima per cada propulsor
 
 	public void setMaxPower(int id, double power) {
 		boosters[id].setMaxPower(power);
 	}
 
-	// defineix la potencia objectiu que ha d'arribar el propulsor.
+	// defineix la potència objectiu que ha d'arribar el propulsor.
 
 	public void setObjectivePower(int id, double power) {
 		try {
@@ -49,7 +49,7 @@ public class Rocket {
 		}
 	}
 
-	// calcula la potencia actual de tots els propulsors
+	// calcula la potència actual de tots els propulsors
 
 	public double getPower() {
 
@@ -61,7 +61,7 @@ public class Rocket {
 		return calculatedPower;
 	}
 
-	// calcula la potencia que té com a objectiu cada propulsor
+	// calcula la potència que té com a objectiu cada propulsor
 
 	public double getObjectivePower() {
 
@@ -81,7 +81,7 @@ public class Rocket {
 
 	}
 
-	// distribueix una potencia donada
+	// distribueix una potència donada
 
 	public void powerDistribution(double power) throws maxPowerException {
 
@@ -94,13 +94,18 @@ public class Rocket {
 		for (Booster b : boosters) {
 			b.setObjectivePower(0);
 		}
-
-		while (power >= 1) {
+		
+		double accuray=1;
+		while (power >= 0) {
+			
+			if(power <= 1*boosters.length) accuray=0.01;
+			if(power <= 0.01*boosters.length) accuray=0.00001;
+			
 			for (Booster b : boosters) {
 
 				try {
-					b.setObjectivePower(b.getObjectivePower() + 1);
-					power -= 1;
+					b.setObjectivePower(b.getObjectivePower() + accuray);
+					power -= accuray;
 				} catch (maxPowerException e) {
 					power += e.getExtraPower();
 				}
@@ -183,7 +188,7 @@ public class Rocket {
 
 	}
 
-	// decideix si frenar o accelerar en funció de la potencia objectiu del coet
+	// decideix si frenar o accelerar en funció de la potència objectiu del coet
 
 	public void autoAccelerarFrenar() {
 		if (getPower() < getObjectivePower()) {
@@ -192,6 +197,12 @@ public class Rocket {
 			frenar();
 		}
 
+	}
+
+	public void setCadencia(int cadencia) {
+		for (Booster b : boosters) {
+			b.setCadencia(cadencia);
+		}
 	}
 
 }

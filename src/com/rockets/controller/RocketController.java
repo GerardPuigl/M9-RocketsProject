@@ -133,4 +133,9 @@ public class RocketController {
 		getRocket(id).setSpeed(i);
 	}
 
+	public void changeCadencia(String idRocket, int i) {
+		getRocket(idRocket).setCadencia(i);
+
+	}
+
 }
