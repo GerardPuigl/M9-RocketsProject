@@ -1,9 +1,11 @@
 package com.rockets.model;
 
 import java.text.DecimalFormat;
+import java.util.Observable;
 
 
-public  class  Booster implements Runnable {
+
+public  class  Booster extends Observable implements Runnable {
 
 	private int id;
 	private double objectivePower;
@@ -12,12 +14,9 @@ public  class  Booster implements Runnable {
 	private int cadencia=1;
 	private String state="parat";
 
+
 	private static DecimalFormat df2 = new DecimalFormat("#.##");
 
-	public Booster(int id) {
-		this.id = id;
-	}
-	
 	public double getMaxPower() {
 		return boostersMaxPower;
 	}
@@ -77,8 +76,9 @@ public  class  Booster implements Runnable {
 
 		}
 	}
-
+	
 	// mètode runnable: Accelera o frena (en funció de l'estat) fins la potència objectiu.
+	// Patró Observer, avisa als panells en cada canvi dels propulsors.
 	
 	@Override
 	public void run() {
@@ -95,12 +95,17 @@ public  class  Booster implements Runnable {
 
 					setPower(boosterPower -= cadencia);
 				}
+
 				System.out.println("Propulsor " + id + " : " + df2.format(boosterPower) + " de " + df2.format(boostersMaxPower));
 			} catch (Exception e) {
 
 				System.out.println("Propulsor " + id + " : " + df2.format(boosterPower) + " de " + df2.format(boostersMaxPower));
 				System.out.println(e.getMessage());
 				break;
+			} finally {
+				
+				setChanged();
+				notifyObservers();
 			}
 
 			try {

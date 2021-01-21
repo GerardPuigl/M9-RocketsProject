@@ -2,6 +2,8 @@ package com.rockets.model;
 
 import java.text.DecimalFormat;
 
+import com.rockets.view.ControlPanel;
+
 public class Rocket {
 
 	private String id;
@@ -9,7 +11,7 @@ public class Rocket {
 	private double speed;
 	private double speedCalculated;
 	private double calculatedPower;
-	Thread[] threads;
+	private Thread[] threads;
 
 	private static DecimalFormat df2 = new DecimalFormat("#.00");
 
@@ -20,7 +22,7 @@ public class Rocket {
 
 		for (int i = 0; i < nBoosters; i++) {
 
-			boosters[i] = new Booster(i);
+			boosters[i] = new Booster();
 		}
 		threads = new Thread[boosters.length];
 	}
@@ -70,8 +72,8 @@ public class Rocket {
 
 	// calcula la potència màxima actual de tots els propulsors
 
-	public double getMaxSpeed () {
-		double maxSpeed=100 * Math.sqrt(getMaxPower());
+	public double getMaxSpeed() {
+		double maxSpeed = 100 * Math.sqrt(getMaxPower());
 		return maxSpeed;
 	}
 
@@ -95,16 +97,6 @@ public class Rocket {
 		boosters[id].setMaxPower(power);
 	}
 
-	// defineix la potència objectiu que ha d'arribar el propulsor.
-
-	public void setObjectivePower(int id, double power) {
-		try {
-			boosters[id].setObjectivePower(power);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
 	// rep una velocitat i en calcula la potenica.
 
 	public void setSpeed(double speed) throws maxPowerException {
@@ -114,13 +106,13 @@ public class Rocket {
 	}
 
 	// rep el canvi de cadencia i l'envia als propulsors
-	
+
 	public void setCadencia(int cadencia) {
 		for (Booster b : boosters) {
 			b.setCadencia(cadencia);
 		}
 	}
-	
+
 	// distribueix una potència donada uniformement fins que el propulsor està ple.
 
 	public void powerDistribution(double power) throws maxPowerException {
@@ -134,17 +126,16 @@ public class Rocket {
 		for (Booster b : boosters) {
 			b.setObjectivePower(0);
 		}
-		
+
 		// accuray per millorar el repartiment de potencia a nivell decimal i acconseguir la velocitat desitjada.
 		// dubte: com es podria fer d'una manera exacta?
-		
-		double accuray=1;
+
+		double accuray = 1;
 		while (power >= 0) {
-			
-			if(power <= 1*boosters.length && power >= 0.01*boosters.length) accuray=0.01;
-			if(power <= 0.01*boosters.length) accuray=0.00001;
-			
-			
+
+			if (power <= 1*boosters.length && power >= 0.01*boosters.length) accuray = 0.01;
+			if (power <= 0.01*boosters.length) accuray = 0.00001;
+
 			for (Booster b : boosters) {
 
 				try {
@@ -214,6 +205,13 @@ public class Rocket {
 			accelerar();
 		} else if (getPower() > getObjectivePower()) {
 			frenar();
+		}
+
+	}
+
+	public void setObserver(ControlPanel panel) {
+		for (Booster b : boosters) {
+			b.addObserver(panel);
 		}
 
 	}

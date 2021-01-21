@@ -7,14 +7,12 @@ import com.rockets.controller.RocketController;
 
 public class RocketsApp {
 
-	public static boolean wait;
-
 	public static void main(String[] args) {
 
 		RocketController controller = RocketController.getInstance();
 
 		// crea els coets
-		
+
 		controller.addRocket("32WESSDS", 3);
 		controller.setMaxPower("32WESSDS", 0, 10);
 		controller.setMaxPower("32WESSDS", 1, 30);
@@ -28,29 +26,33 @@ public class RocketsApp {
 		controller.setMaxPower("LDSFJA32", 4, 30);
 		controller.setMaxPower("LDSFJA32", 5, 10);
 
-		// crea el panells
+		// calcula dimensiones pantalla
 
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 
-		Dimension screen = toolkit.getScreenSize(); // calcula dimensiones pantalla
+		Dimension screen = toolkit.getScreenSize();
 
-		
 		int screenX = (int) screen.getWidth();
 		int screenY = (int) screen.getHeight();
-		
+
+		// crea el panells de control i els separa entre ells.
+
 		try {
-		ControlPanel panel1= new ControlPanel("32WESSDS");
+			ControlPanel panel1 = new ControlPanel("32WESSDS");
 
 			panel1.setLocation(screenX / 2 + 50, screenY / 2 - 250);
 
+			controller.setObserver("32WESSDS", panel1);
+
 			ControlPanel panel2 = new ControlPanel("LDSFJA32");
 
+			controller.setObserver("LDSFJA32", panel2);
+
 			panel2.setLocation(screenX / 2 - 450, screenY / 2 - 250);
-			
+
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 }

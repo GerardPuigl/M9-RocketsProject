@@ -4,13 +4,11 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 import com.rockets.model.*;
+import com.rockets.view.ControlPanel;
 
 public class RocketController {
 
 	private static List<Rocket> rockets = new ArrayList<Rocket>();
-	private String info = "";
-
-	private static DecimalFormat df2 = new DecimalFormat("#.##");
 
 	// Patron Singleton
 	private static RocketController instancia;
@@ -31,12 +29,6 @@ public class RocketController {
 		rockets.add(new Rocket(id, boosters));
 	}
 
-	// torna una llista d'objectes
-
-	public static List<Rocket> getRocketsList() {
-		return rockets;
-	}
-	
 	// torna un objecte coet
 
 	public Rocket getRocket(String id) {
@@ -50,52 +42,12 @@ public class RocketController {
 
 	}
 
-	// torna tota l'informació de tots els coets.
-
-	public String getAllRocketsInfo() {
-
-		for (Rocket r : rockets) {
-			info = info + getInfoRocket(r) + "\n";
-		}
-		return info;
-	}
-
-	// torna el número de propulsors d'un coet
-
-	public int getNumBoosters(String id) {
-
-		return getRocket(id).getBoosters().length;
-
-	}
-
-	// torna l'informació d'un coet.
-
-	public String getInfoRocket(Rocket r) {
-
-		int i = 0;
-
-		info = r.getId() + ": \n";
-
-		for (Booster b : r.getBoosters()) {
-			i++;
-			info = info + "Propulsor " + i + ": " + df2.format(b.getPower()) + " de " + df2.format(b.getMaxPower())
-					+ "\n";
-		}
-		return info;
-	}
-
 	// defineix la potencia màxima d'un propulsor.
 
 	public void setMaxPower(String id, int booster, double power) {
 		getRocket(id).setMaxPower(booster, power);
 	}
 
-	// defineix la potencia d'un propulsor.
-
-	public void setObjectivePower(String id, int booster, double power) {
-		getRocket(id).setObjectivePower(booster, power);
-
-	}
 
 	// defineix una velocitat desitjada pel coet
 
@@ -138,6 +90,13 @@ public class RocketController {
 	public void frenar(String id) {
 		getRocket(id).frenar();
 
+	}
+	
+	// envia l'objecte observer a cada coet
+
+	public void setObserver(String idRocket, ControlPanel panel) {
+		getRocket(idRocket).setObserver(panel);
+		
 	}
 
 }
