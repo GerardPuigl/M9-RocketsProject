@@ -3,14 +3,14 @@ package com.rockets.model;
 import java.text.DecimalFormat;
 
 
-public class Booster implements Runnable {
+public  class  Booster implements Runnable {
 
-	int id;
+	private int id;
 	private double objectivePower;
 	private double boosterPower;
 	private double boostersMaxPower;
 	private int cadencia=1;
-	String state="parat";
+	private String state="parat";
 
 	private static DecimalFormat df2 = new DecimalFormat("#.##");
 
@@ -34,8 +34,13 @@ public class Booster implements Runnable {
 		return boosterPower;
 	}
 
+<<<<<<< HEAD
 	// fixa potencia objectiu i vigila que no pugui superar la potencia màxima. 
 	// en cas de superar-la el posa al màxim i retorna la potencia no assignada.
+=======
+	// fixa potència objectiu i vigila que no pugui superar la potència màxima. 
+	// en cas de superar-la el posa al màxim i retorna la potència no assignada.
+>>>>>>> refs/heads/Nivell3
 	
 	public void setObjectivePower(double power) throws maxPowerException{
 		
@@ -43,29 +48,36 @@ public class Booster implements Runnable {
 			
 			objectivePower=boostersMaxPower;
 			
-			throw new maxPowerException("No es pot superar la potencia màxima.\n"
-					+ "Potencia no adjudicada al propulsor: " + id + " - "
+			throw new maxPowerException("No es pot superar la potència màxima.\n"
+					+ "potència no adjudicada al propulsor: " + id + " - "
 					+ (power - boostersMaxPower), power - boostersMaxPower);
 		}
 		objectivePower=power;
 	}
+<<<<<<< HEAD
 	// augmenta la potencia i vigila que no superi la potencia màxima.
+=======
+	
+	// augmenta la potència i vigila que no superi la potència màxima.
+>>>>>>> refs/heads/Nivell3
 	
 	public void setPower(double power) throws Exception {
 
 		if (boostersMaxPower < power) {
 
-			throw new Exception("Propulsor " + id + " no pot superar la potencia màxima!");
+			boosterPower=objectivePower;
+			throw new Exception("Propulsor " + id + " no pot superar la potència màxima!");
 			
-		} else if (boostersMaxPower == power) {
+		} else if ((objectivePower <= power && state.equals("accelerar"))
+				||(objectivePower >= power && state.equals("frenar"))) {
 			
-			boosterPower = power;
-			throw new Exception("Propulsor " + id + " ha arribat a la potencia màxima.");
-
+			boosterPower = objectivePower;
+			throw new Exception("Propulsor " + id + " ha arribat a la potència correcta.");
 
 		} else if (0 >= power) {
 			
-			boosterPower = power;
+			boosterPower = 0;
+			
 			throw new Exception("Propulsor " + id + " està a 0.");
 
 
@@ -75,12 +87,12 @@ public class Booster implements Runnable {
 		}
 	}
 
-	// mètode runnable: Accelera o frena (en funció de l'estat) fins la potencia objectiu.
+	// mètode runnable: Accelera o frena (en funció de l'estat) fins la potència objectiu.
 	
 	@Override
 	public void run() {
 
-		while (objectivePower != boosterPower && !Thread.currentThread().isInterrupted()) {
+		while (objectivePower!=boosterPower && !Thread.currentThread().isInterrupted()) {
 
 			try {
 
@@ -120,6 +132,10 @@ public class Booster implements Runnable {
 		
 		state="frenar";
 		
+	}
+
+	public void setCadencia(int cadencia) {
+		this.cadencia=cadencia;
 	}
 
 }

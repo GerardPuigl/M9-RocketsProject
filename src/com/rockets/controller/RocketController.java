@@ -12,6 +12,22 @@ public class RocketController {
 
 	private static DecimalFormat df2 = new DecimalFormat("#.##");
 
+<<<<<<< HEAD
+=======
+	// Patron Singleton
+	private static RocketController instancia;
+
+	private RocketController() {
+	}
+
+	public static RocketController getInstance() {
+		if (instancia == null) {
+			instancia = new RocketController();
+		}
+		return instancia;
+	}	
+	
+>>>>>>> refs/heads/Nivell3
 	// construeix un coet i el posa a l'Array
 
 	public void addRocket(String id, int boosters) {
@@ -20,9 +36,21 @@ public class RocketController {
 		observerRocketThread.start();
 	}
 
+<<<<<<< HEAD
 	// torna un objecte coet
 
 	private Rocket getRocket(String id) {
+=======
+	// torna una llista d'objectes
+
+	public static List<Rocket> getRocketsList() {
+		return rockets;
+	}
+	
+	// torna un objecte coet
+
+	public Rocket getRocket(String id) {
+>>>>>>> refs/heads/Nivell3
 
 		for (Rocket r : rockets) {
 			if (r.getId().equals(id)) {
@@ -30,6 +58,7 @@ public class RocketController {
 			}
 		}
 		return null;
+<<<<<<< HEAD
 
 	}
 
@@ -38,6 +67,8 @@ public class RocketController {
 	public int getNumBoosters(String id) {
 
 		return getRocket(id).getBoosters().length;
+=======
+>>>>>>> refs/heads/Nivell3
 
 	}
 
@@ -51,6 +82,17 @@ public class RocketController {
 		return info;
 	}
 
+<<<<<<< HEAD
+=======
+	// torna el número de propulsors d'un coet
+
+	public int getNumBoosters(String id) {
+
+		return getRocket(id).getBoosters().length;
+
+	}
+
+>>>>>>> refs/heads/Nivell3
 	// torna l'informació d'un coet.
 
 	public String getInfoRocket(Rocket r) {
@@ -80,14 +122,37 @@ public class RocketController {
 
 	}
 
+<<<<<<< HEAD
 	// informa al coet que ha d'arrancar
 
 	public void arrancarCoet(String id) {
+=======
+	// defineix una velocitat desitjada pel coet
+
+	public void setSpeed(String id, double i) throws maxPowerException {
+		getRocket(id).setSpeed(i);
+	}
+
+	// defineix la cadencia dels propulsors la pasa als coets
+	
+	public void setCadencia(String idRocket, int i) {
+		getRocket(idRocket).setCadencia(i);
+
+	}
+
+	// informa al coet que ha d'arrancar
+
+	public void arrancar(String id) {
+>>>>>>> refs/heads/Nivell3
 
 		getRocket(id).arrancar();
 
 	}
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> refs/heads/Nivell3
 	// informa al coet que ha de parar
 
 	public void parar(String id) {
@@ -110,10 +175,13 @@ public class RocketController {
 
 	}
 
+<<<<<<< HEAD
 	// defineix una velocitat desitjada pel coet
 
 	public void setSpeed(String id, int i) {
 		getRocket(id).setSpeed(i);
 	}
 
+=======
+>>>>>>> refs/heads/Nivell3
 }
