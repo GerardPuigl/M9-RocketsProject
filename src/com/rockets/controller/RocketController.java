@@ -50,14 +50,6 @@ public class RocketController {
 
 	}
 
-	// torna el número de propulsors d'un coet
-
-	public int getNumBoosters(String id) {
-
-		return getRocket(id).getBoosters().length;
-
-	}
-
 	// torna tota l'informació de tots els coets.
 
 	public String getAllRocketsInfo() {
@@ -66,6 +58,14 @@ public class RocketController {
 			info = info + getInfoRocket(r) + "\n";
 		}
 		return info;
+	}
+
+	// torna el número de propulsors d'un coet
+
+	public int getNumBoosters(String id) {
+
+		return getRocket(id).getBoosters().length;
+
 	}
 
 	// torna l'informació d'un coet.
@@ -97,14 +97,27 @@ public class RocketController {
 
 	}
 
+	// defineix una velocitat desitjada pel coet
+
+	public void setSpeed(String id, double i) throws maxPowerException {
+		getRocket(id).setSpeed(i);
+	}
+
+	// defineix la cadencia dels propulsors la pasa als coets
+	
+	public void setCadencia(String idRocket, int i) {
+		getRocket(idRocket).setCadencia(i);
+
+	}
+
 	// informa al coet que ha d'arrancar
 
-	public void arrancarCoet(String id) {
+	public void arrancar(String id) {
 
 		getRocket(id).arrancar();
 
 	}
-
+	
 	// informa al coet que ha de parar
 
 	public void parar(String id) {
@@ -124,17 +137,6 @@ public class RocketController {
 
 	public void frenar(String id) {
 		getRocket(id).frenar();
-
-	}
-
-	// defineix una velocitat desitjada pel coet
-
-	public void setSpeed(String id, double i) throws maxPowerException {
-		getRocket(id).setSpeed(i);
-	}
-
-	public void changeCadencia(String idRocket, int i) {
-		getRocket(idRocket).setCadencia(i);
 
 	}
 

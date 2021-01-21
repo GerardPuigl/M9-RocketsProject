@@ -14,6 +14,7 @@ public class RocketsApp {
 		RocketController controller = RocketController.getInstance();
 
 		// crea els coets
+		
 		controller.addRocket("32WESSDS", 3);
 		controller.setMaxPower("32WESSDS", 0, 10);
 		controller.setMaxPower("32WESSDS", 1, 30);
@@ -33,6 +34,7 @@ public class RocketsApp {
 
 		Dimension screen = toolkit.getScreenSize(); // calcula dimensiones pantalla
 
+		
 		int screenX = (int) screen.getWidth();
 		int screenY = (int) screen.getHeight();
 		
@@ -48,5 +50,7 @@ public class RocketsApp {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 }

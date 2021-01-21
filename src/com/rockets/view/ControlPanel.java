@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.regex.Matcher;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -183,7 +182,7 @@ public class ControlPanel extends JFrame implements Runnable, ActionListener {
 
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				controller.changeCadencia(idRocket,(int)control.getValue());
+				controller.setCadencia(idRocket,(int)control.getValue());
 			}
 		});
 

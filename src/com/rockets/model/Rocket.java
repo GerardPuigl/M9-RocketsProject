@@ -33,6 +33,62 @@ public class Rocket {
 		return boosters;
 	}
 
+	// calcula la potència actual de tots els propulsors
+
+	public double getPower() {
+
+		calculatedPower = 0;
+
+		for (Booster b : boosters) {
+			calculatedPower += b.getPower();
+		}
+		return calculatedPower;
+	}
+
+	// calcula la potenica màxima que pot generar el coet
+
+	public double getMaxPower() {
+		double maxPower = 0;
+
+		for (Booster b : boosters) {
+			maxPower += b.getMaxPower();
+		}
+		return maxPower;
+	}
+
+	// calcula la potència que té com a objectiu cada propulsor
+
+	public double getObjectivePower() {
+
+		double power = 0;
+
+		for (Booster b : boosters) {
+			power += b.getObjectivePower();
+		}
+		return power;
+	}
+
+	// calcula la potència màxima actual de tots els propulsors
+
+	public double getMaxSpeed () {
+		double maxSpeed=100 * Math.sqrt(getMaxPower());
+		return maxSpeed;
+	}
+
+	// calcula la velocitat, si ha canviat respecte l'anterior registre imprimeix
+	// per pantalla
+
+	public double getSpeed() {
+
+		speedCalculated = 100 * Math.sqrt(getPower());
+
+		if (speed != speedCalculated) {
+			speed = speedCalculated;
+			System.out.println("Velocitat del coet " + id + " : " + df2.format(speed) + " km/h");
+		}
+		return speed;
+	}
+
 	// defineix una potència màxima per cada propulsor
 
 	public void setMaxPower(int id, double power) {
@@ -49,30 +105,6 @@ public class Rocket {
 		}
 	}
 
-	// calcula la potència actual de tots els propulsors
-
-	public double getPower() {
-
-		calculatedPower = 0;
-
-		for (Booster b : boosters) {
-			calculatedPower += b.getPower();
-		}
-		return calculatedPower;
-	}
-
-	// calcula la potència que té com a objectiu cada propulsor
-
-	public double getObjectivePower() {
-
-		double power = 0;
-
-		for (Booster b : boosters) {
-			power += b.getObjectivePower();
-		}
-		return power;
-	}
-
 	// rep una velocitat i en calcula la potenica.
 
 	public void setSpeed(double speed) throws maxPowerException {
@@ -80,18 +112,21 @@ public class Rocket {
 		powerDistribution(Math.pow(((speed) / 100), 2));
 
 	}
-	
-	public double getMaxSpeed () {
-		double maxSpeed=100 * Math.sqrt(maxPower());
-		return maxSpeed;
-	}
 
+	// rep el canvi de cadencia i l'envia als propulsors
+	
+	public void setCadencia(int cadencia) {
+		for (Booster b : boosters) {
+			b.setCadencia(cadencia);
+		}
+	}
+	
 	// distribueix una potència donada uniformement fins que el propulsor està ple.
 
 	public void powerDistribution(double power) throws maxPowerException {
 
-		if (power > maxPower()) {
-			power = maxPower();
+		if (power > getMaxPower()) {
+			power = getMaxPower();
 			System.out.println("No es pot superar la velocitat: " + df2.format(getMaxSpeed()) + " km/h.");
 			throw new maxPowerException("No es pot superar la velocitat: " + df2.format(getMaxSpeed()) + " km/h.", 0);
 		}
@@ -121,31 +156,6 @@ public class Rocket {
 			}
 		}
 		autoAccelerarFrenar();
-	}
-
-	// calcula la potenica màxima que pot generar el coet
-
-	public double maxPower() {
-		double maxPower = 0;
-
-		for (Booster b : boosters) {
-			maxPower += b.getMaxPower();
-		}
-		return maxPower;
-	}
-
-	// calcula la velocitat, si ha canviat respecte l'anterior registre imprimeix
-	// per pantalla
-
-	public double getSpeed() {
-
-		speedCalculated = 100 * Math.sqrt(getPower());
-
-		if (speed != speedCalculated) {
-			speed = speedCalculated;
-			System.out.println("Velocitat del coet " + id + " : " + df2.format(speed) + " km/h");
-		}
-		return speed;
 	}
 
 	// inicia els threads dels propulsors
@@ -207,11 +217,4 @@ public class Rocket {
 		}
 
 	}
-
-	public void setCadencia(int cadencia) {
-		for (Booster b : boosters) {
-			b.setCadencia(cadencia);
-		}
-	}
-
 }
