@@ -34,13 +34,8 @@ public  class  Booster implements Runnable {
 		return boosterPower;
 	}
 
-<<<<<<< HEAD
-	// fixa potencia objectiu i vigila que no pugui superar la potencia màxima. 
-	// en cas de superar-la el posa al màxim i retorna la potencia no assignada.
-=======
 	// fixa potència objectiu i vigila que no pugui superar la potència màxima. 
 	// en cas de superar-la el posa al màxim i retorna la potència no assignada.
->>>>>>> refs/heads/Nivell3
 	
 	public void setObjectivePower(double power) throws maxPowerException{
 		
@@ -54,12 +49,8 @@ public  class  Booster implements Runnable {
 		}
 		objectivePower=power;
 	}
-<<<<<<< HEAD
-	// augmenta la potencia i vigila que no superi la potencia màxima.
-=======
 	
 	// augmenta la potència i vigila que no superi la potència màxima.
->>>>>>> refs/heads/Nivell3
 	
 	public void setPower(double power) throws Exception {
 
