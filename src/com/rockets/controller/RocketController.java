@@ -129,7 +129,7 @@ public class RocketController {
 
 	// defineix una velocitat desitjada pel coet
 
-	public void setSpeed(String id, int i) throws maxPowerException {
+	public void setSpeed(String id, double i) throws maxPowerException {
 		getRocket(id).setSpeed(i);
 	}
 

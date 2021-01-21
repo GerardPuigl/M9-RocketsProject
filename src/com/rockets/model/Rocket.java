@@ -80,26 +80,35 @@ public class Rocket {
 		powerDistribution(Math.pow(((speed) / 100), 2));
 
 	}
+	
+	public double getMaxSpeed () {
+		double maxSpeed=100 * Math.sqrt(maxPower());
+		return maxSpeed;
+	}
 
-	// distribueix una potència donada
+	// distribueix una potència donada uniformement fins que el propulsor està ple.
 
 	public void powerDistribution(double power) throws maxPowerException {
 
 		if (power > maxPower()) {
 			power = maxPower();
-			System.out.println("No es pot superar la velocitat: " + df2.format(100 * Math.sqrt(maxPower())) + " km/h.");
-			throw new maxPowerException("No es pot superar la velocitat: " + df2.format(100 * Math.sqrt(maxPower())) + " km/h.", 0);
+			System.out.println("No es pot superar la velocitat: " + df2.format(getMaxSpeed()) + " km/h.");
+			throw new maxPowerException("No es pot superar la velocitat: " + df2.format(getMaxSpeed()) + " km/h.", 0);
 		}
 
 		for (Booster b : boosters) {
 			b.setObjectivePower(0);
 		}
 		
+		// accuray per millorar el repartiment de potencia a nivell decimal i acconseguir la velocitat desitjada.
+		// dubte: com es podria fer d'una manera exacta?
+		
 		double accuray=1;
 		while (power >= 0) {
 			
-			if(power <= 1*boosters.length) accuray=0.01;
+			if(power <= 1*boosters.length && power >= 0.01*boosters.length) accuray=0.01;
 			if(power <= 0.01*boosters.length) accuray=0.00001;
+			
 			
 			for (Booster b : boosters) {
 

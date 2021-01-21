@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.regex.Matcher;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -208,6 +209,9 @@ public class ControlPanel extends JFrame implements Runnable, ActionListener {
 			} catch (NumberFormatException ex) {
 				inputSpeed.setText("Has d'introduir un número.");
 			} catch (maxPowerException ex) {
+				
+				double roundMaxPower = (double)((int)(rocket.getMaxSpeed()*1000))/1000;		
+				controller.setSpeed(idRocket,roundMaxPower);
 				inputSpeed.setText(ex.getMessage());
 			}
 
@@ -215,7 +219,7 @@ public class ControlPanel extends JFrame implements Runnable, ActionListener {
 
 	}
 
-	//mètode "observer" per anar veient els canvis de potència i velocitat en el coet.
+	//mètode que comprova els canvis de potència i velocitat en el coet.
 	
 	@Override
 	public void run() {
